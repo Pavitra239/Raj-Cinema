@@ -12,16 +12,18 @@ const invoiceSchema = new Schema(
       type: Date,
       required: true,
     },
-    vendorId: {
+    vendor: {
       type: Schema.Types.ObjectId,
       ref: "Vendor",
       required: true,
     },
-    productId: {
-      type: Schema.Types.ObjectId,
-      ref: "Product",
-      required: true,
-    },
+    products: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Product",
+        required: true,
+      },
+    ],
     quantity: {
       type: Number,
       required: true,

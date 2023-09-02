@@ -1,23 +1,35 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const config = require("./config/db.config");
-
+const cors = require("cors");
+const createError = require("http-errors");
 require("dotenv").config();
+
+const config = require("./config/db.config");
 
 const app = express();
 
-console.log(config.uri);
+app.use(express.json());
+app.use(cors());
+
+app.use((error, req, res, next) => {
+  const err = createError.B;
+  res.status(status).json({
+    message: message,
+  });
+});
+
 mongoose
-  .connect(config.uri)
+  .connect(config.uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
-    console.log("Connected To Database");
-    app.listen(process.env.PORT || 8000, () => {
-      console.log("Conection Established");
-      console.log(`Server is running on port ${config.port}`);
+    console.log("Database connected");
+    app.listen(process.env.PORT || 3000, () => {
+      console.log("Server is running");
     });
   })
   .catch((err) => {
-    console.log(err);
-    console.log("Error in connecting to database");
+    console.error("Error connecting to the database:", err);
     process.exit(1);
   });
